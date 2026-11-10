@@ -1,0 +1,87 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'row', background: '#F7F9FC', overflow: 'hidden' }}>
+
+    <Box style={{ width: 14, height: 720, background: '#0E3F8C' }} />
+
+    <Box style={{ flex: 1, height: 720, flexDirection: 'column', justifyContent: 'space-between', paddingTop: 60, paddingBottom: 58, paddingLeft: 68, paddingRight: 68 }}>
+
+        <Box style={{ flexDirection: 'column' }}>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <Box style={{ flexDirection: 'column', paddingBottom: 10 }}>
+                    <Text style={{ fontSize: 15, color: '#1E4FA8', letterSpacing: 4 }}>第 三 章</Text>
+                    <Text style={{ fontSize: 44, fontWeight: 'bold', color: '#0E3F8C', marginTop: 10, letterSpacing: 1 }}>实现与测试</Text>
+                    <Box style={{ width: 72, height: 3, background: '#3D7BD9', marginTop: 18 }} />
+                    <Text style={{ fontSize: 15, color: '#8B97A8', marginTop: 12, letterSpacing: 0.5 }}>P11 — P14　·　共 4 页　·　约 4 分钟</Text>
+                </Box>
+                <Text style={{ fontSize: 208, fontWeight: 'bold', color: '#C3D6EF', lineHeight: 0.82, letterSpacing: -6 }}>03</Text>
+            </Box>
+
+            <Box style={{ flexDirection: 'column', gap: 18, marginTop: 34 }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                    <Box style={{ width: 26, height: 26, background: '#1E4FA8', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 13, color: '#FFFFFF', fontWeight: 'bold' }}>1</Text>
+                    </Box>
+                    <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.55, width: 1090 }}>
+                        <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>界面即证据：</span>预约、排期、运维三条主线的截图，全部来自系统真实运行。
+                    </Text>
+                </Box>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                    <Box style={{ width: 26, height: 26, background: '#1E4FA8', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 13, color: '#FFFFFF', fontWeight: 'bold' }}>2</Text>
+                    </Box>
+                    <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.55, width: 1090 }}>
+                        <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>数据是完整的：</span>384 条预约、26 张工单、102 条流转记录，不是空壳演示。
+                    </Text>
+                </Box>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                    <Box style={{ width: 26, height: 26, background: '#1E4FA8', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 13, color: '#FFFFFF', fontWeight: 'bold' }}>3</Text>
+                    </Box>
+                    <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.55, width: 1090 }}>
+                        <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>测试有断言：</span>33 项接口断言全部通过，13 个页面巡检 0 条控制台报错。
+                    </Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'row', gap: 14, marginTop: 26 }}>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, background: '#FFFFFF', border: '1px solid #D6DCE5', paddingTop: 11, paddingBottom: 11, paddingLeft: 12, paddingRight: 12 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 7, paddingRight: 7, paddingTop: 3, paddingBottom: 3 }}>P11</Text>
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#1A2230' }}>预约模块实现</Text>
+                        <Text style={{ fontSize: 12, color: '#8B97A8', marginTop: 2 }}>选实验室 · 冲突提示</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, background: '#FFFFFF', border: '1px solid #D6DCE5', paddingTop: 11, paddingBottom: 11, paddingLeft: 12, paddingRight: 12 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 7, paddingRight: 7, paddingTop: 3, paddingBottom: 3 }}>P12</Text>
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#1A2230' }}>设备运维闭环</Text>
+                        <Text style={{ fontSize: 12, color: '#8B97A8', marginTop: 2 }}>五段流转 · 102 条留痕</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, background: '#FFFFFF', border: '1px solid #D6DCE5', paddingTop: 11, paddingBottom: 11, paddingLeft: 12, paddingRight: 12 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 7, paddingRight: 7, paddingTop: 3, paddingBottom: 3 }}>P13</Text>
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#1A2230' }}>测试与验证</Text>
+                        <Text style={{ fontSize: 12, color: '#8B97A8', marginTop: 2 }}>33 / 33 断言通过</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, background: '#FFFFFF', border: '1px solid #D6DCE5', paddingTop: 11, paddingBottom: 11, paddingLeft: 12, paddingRight: 12 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 7, paddingRight: 7, paddingTop: 3, paddingBottom: 3 }}>P14</Text>
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#1A2230' }}>总结与展望</Text>
+                        <Text style={{ fontSize: 12, color: '#8B97A8', marginTop: 2 }}>三条主线 · 三项不足</Text>
+                    </Box>
+                </Box>
+            </Box>
+
+        </Box>
+
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 18, background: '#0E3F8C', paddingTop: 18, paddingBottom: 18, paddingLeft: 24, paddingRight: 24 }}>
+            <Box style={{ width: 3, height: 40, background: '#3D7BD9' }} />
+            <Text style={{ fontSize: 19, color: '#FFFFFF', lineHeight: 1.6, flex: 1 }}>
+                下面每一页都是 <span style={{ fontWeight: 'bold', color: '#FFC107' }}>真实运行时的界面</span>，不是设计稿，也不是静态页面。
+            </Text>
+        </Box>
+
+    </Box>
+</Slide>

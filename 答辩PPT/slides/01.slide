@@ -1,0 +1,90 @@
+<Slide style={{ width: 1280, height: 720, position: 'relative', background: '#0E3F8C', overflow: 'hidden', padding: 0 }}>
+
+    {/* 背景装饰：低透明度几何，不进入安全区 */}
+    <Box style={{ position: 'absolute', left: -150, top: -180, width: 560, height: 560, borderRadius: 280, background: '#1E4FA8', opacity: 0.55 }} />
+    <Box style={{ position: 'absolute', left: 120, bottom: -300, width: 620, height: 620, borderRadius: 310, background: '#3D7BD9', opacity: 0.14 }} />
+    <Box style={{ position: 'absolute', right: 96, top: -80, width: 300, height: 300, borderRadius: 150, background: '#3D7BD9', opacity: 0.16 }} />
+    <Box style={{ position: 'absolute', left: 0, top: 0, width: 6, height: 132, background: '#3D7BD9' }} />
+
+    <Box style={{ flexDirection: 'row', width: 1280, height: 720, paddingLeft: 76, paddingRight: 76, alignItems: 'center', gap: 54 }}>
+
+        {/* 左：标题区 */}
+        <Box style={{ width: 598, flexDirection: 'column' }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <Box style={{ width: 26, height: 2, background: '#3D7BD9' }} />
+                <Text style={{ fontSize: 15, color: '#9FBCE8', letterSpacing: 2.4 }}>计算机科学与技术学院 · 毕业设计答辩</Text>
+            </Box>
+
+            <Text style={{ fontSize: 66, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 1.2, marginTop: 20 }}>
+                高校实验室预约<br />与设备运维系统
+            </Text>
+
+            <Text style={{ fontSize: 18, color: '#8FAEDD', letterSpacing: 0.4, lineHeight: 1.55, marginTop: 16 }}>
+                University Laboratory Reservation<br />and Equipment Maintenance System
+            </Text>
+
+            <Box style={{ width: 92, height: 3, background: '#3D7BD9', marginTop: 26 }} />
+
+            <Text style={{ fontSize: 21, color: '#D6E3F6', lineHeight: 1.62, marginTop: 22 }}>
+                把「抢实验室」与「修设备」两条线下流程，<br />收敛成一套可追溯的线上闭环
+            </Text>
+
+            {/* 信息条 */}
+            <Box style={{ flexDirection: 'row', gap: 22, marginTop: 40, alignItems: 'stretch' }}>
+                <Box style={{ flexDirection: 'row', gap: 12 }}>
+                    <Box style={{ width: 2, background: '#3D7BD9' }} />
+                    <Box style={{ flexDirection: 'column', gap: 6 }}>
+                        <Text style={{ fontSize: 13, color: '#7FA0D2', letterSpacing: 1.2 }}>答 辩 人</Text>
+                        <Text style={{ fontSize: 19, color: '#FFFFFF', fontWeight: 'bold' }}>杨　帆</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flexDirection: 'row', gap: 12 }}>
+                    <Box style={{ width: 2, background: '#3D7BD9' }} />
+                    <Box style={{ flexDirection: 'column', gap: 6 }}>
+                        <Text style={{ fontSize: 13, color: '#7FA0D2', letterSpacing: 1.2 }}>学　　号</Text>
+                        <Text style={{ fontSize: 19, color: '#FFFFFF', fontWeight: 'bold' }}>2021001</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flexDirection: 'row', gap: 12 }}>
+                    <Box style={{ width: 2, background: '#3D7BD9' }} />
+                    <Box style={{ flexDirection: 'column', gap: 6 }}>
+                        <Text style={{ fontSize: 13, color: '#7FA0D2', letterSpacing: 1.2 }}>专　　业</Text>
+                        <Text style={{ fontSize: 19, color: '#FFFFFF', fontWeight: 'bold' }}>计算机科学与技术</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flexDirection: 'row', gap: 12 }}>
+                    <Box style={{ width: 2, background: '#3D7BD9' }} />
+                    <Box style={{ flexDirection: 'column', gap: 6 }}>
+                        <Text style={{ fontSize: 13, color: '#7FA0D2', letterSpacing: 1.2 }}>汇报时间</Text>
+                        <Text style={{ fontSize: 19, color: '#FFFFFF', fontWeight: 'bold' }}>2026.10</Text>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
+
+        {/* 右：真实界面骑线 */}
+        <Box style={{ width: 528, flexDirection: 'column' }}>
+            <Box style={{ width: 528, height: 369, borderRadius: 12, border: { width: 1, color: '#4A79C4' }, background: '#0B3577', padding: 6 }}>
+                <Image src="assets/shot_login.png" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 8 }} />
+            </Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 14 }}>
+                <Box style={{ width: 6, height: 6, borderRadius: 3, background: '#3D7BD9' }} />
+                <Text style={{ fontSize: 14, color: '#8FAEDD' }}>系统登录页 · 四类角色演示账号可一键填充</Text>
+            </Box>
+            <Box style={{ flexDirection: 'row', gap: 10, marginTop: 24 }}>
+                <Box style={{ flex: 1, flexDirection: 'column', gap: 3, paddingTop: 12, paddingBottom: 12, paddingLeft: 14, paddingRight: 14, background: '#123F82', borderRadius: 6, border: '1px solid #2E5FA8' }}>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#FFFFFF' }}>12</Text>
+                    <Text style={{ fontSize: 12, color: '#8FAEDD' }}>间实验室在线可约</Text>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'column', gap: 3, paddingTop: 12, paddingBottom: 12, paddingLeft: 14, paddingRight: 14, background: '#123F82', borderRadius: 6, border: '1px solid #2E5FA8' }}>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#FFFFFF' }}>237</Text>
+                    <Text style={{ fontSize: 12, color: '#8FAEDD' }}>台设备纳入台账</Text>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'column', gap: 3, paddingTop: 12, paddingBottom: 12, paddingLeft: 14, paddingRight: 14, background: '#123F82', borderRadius: 6, border: '1px solid #2E5FA8' }}>
+                    <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#FFFFFF' }}>48</Text>
+                    <Text style={{ fontSize: 12, color: '#8FAEDD' }}>个 REST 接口</Text>
+                </Box>
+            </Box>
+        </Box>
+    </Box>
+</Slide>

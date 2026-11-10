@@ -1,0 +1,135 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'column', background: '#FFFFFF', overflow: 'hidden' }}>
+
+    <Box style={{ height: 52, background: '#0E3F8C', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 15, color: '#FFFFFF', letterSpacing: 1 }}>高校实验室预约与设备运维系统</Text>
+        <Text style={{ fontSize: 15, color: '#9FBCE8', letterSpacing: 1 }}>02　系统设计</Text>
+    </Box>
+
+    <Box style={{ paddingLeft: 40, paddingRight: 40, paddingTop: 12 }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#0E3F8C', letterSpacing: 0.5 }}>数据库设计：7 张表承载两条业务线</Text>
+            <Text style={{ fontSize: 14, color: '#8B97A8' }}>完整 ER 图见设计文档第 5 章</Text>
+        </Box>
+        <Box style={{ width: 56, height: 3, background: '#1E4FA8', marginTop: 8 }} />
+    </Box>
+
+    <Box style={{ flex: 1, flexDirection: 'row', gap: 18, paddingLeft: 40, paddingRight: 40, paddingTop: 12, paddingBottom: 10 }}>
+
+        {/* 左：三类划分 */}
+        <Box style={{ width: 332, background: '#0E3F8C', flexDirection: 'column', justifyContent: 'space-between', paddingTop: 24, paddingBottom: 24, paddingLeft: 24, paddingRight: 24 }}>
+            <Box style={{ flexDirection: 'column' }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 8 }}>
+                    <Text style={{ fontSize: 62, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 0.9 }}>7</Text>
+                    <Text style={{ fontSize: 17, color: '#9FBCE8', paddingBottom: 6 }}>张核心表</Text>
+                </Box>
+                <Box style={{ width: 44, height: 2, background: '#3D7BD9', marginTop: 14 }} />
+
+                <Box style={{ flexDirection: 'column', gap: 6, marginTop: 22 }}>
+                    <Text style={{ fontSize: 14, color: '#7FA0D2', letterSpacing: 1 }}>主数据 · 3 张</Text>
+                    <Text style={{ fontSize: 15, color: '#FFFFFF', lineHeight: 1.5 }}>sys_user 用户　lab 实验室<br />equipment 设备</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'column', gap: 6, marginTop: 16 }}>
+                    <Text style={{ fontSize: 14, color: '#7FA0D2', letterSpacing: 1 }}>业务单据 · 2 张</Text>
+                    <Text style={{ fontSize: 15, color: '#FFFFFF', lineHeight: 1.5 }}>reservation 预约单<br />repair_order 报修工单</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'column', gap: 6, marginTop: 16 }}>
+                    <Text style={{ fontSize: 14, color: '#7FA0D2', letterSpacing: 1 }}>过程留痕 · 2 张</Text>
+                    <Text style={{ fontSize: 15, color: '#FFFFFF', lineHeight: 1.5 }}>repair_log 流转记录<br />notice 公告</Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'column', gap: 6 }}>
+                <Box style={{ height: 1, background: '#2E5FA8', marginBottom: 8 }} />
+                <Text style={{ fontSize: 13, color: '#9FBCE8', lineHeight: 1.6 }}>InnoDB · utf8mb4 · 每表均有 uk 业务唯一键</Text>
+            </Box>
+        </Box>
+
+        {/* 右：表结构清单 */}
+        <Box style={{ flex: 1, flexDirection: 'column' }}>
+
+            <Table
+                style={{ width: '100%', height: 402 }}
+                defaultTextStyle={{ fontSize: 15, textAlign: 'left', color: '#1A2230' }}
+                defaultCellStyle={{
+                    border: {
+                        left: { width: 1, color: '#E5E7EB' },
+                        right: { width: 1, color: '#E5E7EB' },
+                        top: { width: 1, color: '#E5E7EB' },
+                        bottom: { width: 1, color: '#E5E7EB' },
+                    },
+                    padding: { left: 10, right: 10, top: 6, bottom: 6 },
+                }}
+                cells={[
+                    [
+                        { text: '表名', textStyle: { bold: true, color: '#FFFFFF', fontSize: 15 }, cellStyle: { background: { color: '#0E3F8C' } } },
+                        { text: '中文', textStyle: { bold: true, color: '#FFFFFF', fontSize: 15 }, cellStyle: { background: { color: '#0E3F8C' } } },
+                        { text: '关键字段', textStyle: { bold: true, color: '#FFFFFF', fontSize: 15 }, cellStyle: { background: { color: '#0E3F8C' } } },
+                        { text: '当前数据量', textStyle: { bold: true, color: '#FFFFFF', fontSize: 15 }, cellStyle: { background: { color: '#0E3F8C' } } },
+                    ],
+                    [
+                        { text: 'sys_user', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '用户',
+                        'id, username, password, role, user_no, dept',
+                        { text: '36 条', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: 'lab', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '实验室',
+                        'id, code, name, capacity, open/close_time, need_approval',
+                        { text: '12 条', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: 'equipment', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '设备',
+                        'id, lab_id, code, category, price, status',
+                        { text: '237 条', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: 'reservation', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '预约单',
+                        'id, user_id, lab_id, start_time, end_time, status',
+                        { text: '384 条', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: 'repair_order', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '报修工单',
+                        'id, equipment_id, reporter_id, repairer_id, fault_desc, status, cost',
+                        { text: '26 条', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: 'repair_log', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '流转记录',
+                        'id, order_id, operator_id, action, content',
+                        { text: '102 条', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: 'notice', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '公告',
+                        'id, title, content, publisher_id, status',
+                        { text: '6 条', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                ]}
+            />
+
+            <Box style={{ flexDirection: 'row', gap: 14, marginTop: 14, flex: 1 }}>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, background: '#F0F5FC', paddingTop: 10, paddingBottom: 10, paddingLeft: 14, paddingRight: 14 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2 }}>索引</Text>
+                    <Text style={{ fontSize: 14, color: '#1A2230', lineHeight: 1.45, flex: 1 }}>reservation 建 (lab_id, start_time, end_time) 联合索引，冲突查询一次扫描命中</Text>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10, background: '#F0F5FC', paddingTop: 10, paddingBottom: 10, paddingLeft: 14, paddingRight: 14 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2 }}>留痕</Text>
+                    <Text style={{ fontSize: 14, color: '#1A2230', lineHeight: 1.45, flex: 1 }}>repair_log 独立成表，每次状态跃迁都有独立责任人、时间与备注</Text>
+                </Box>
+            </Box>
+
+        </Box>
+
+    </Box>
+
+    <Box style={{ height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 14, color: '#8B97A8' }}>计算机科学与技术学院 · 毕业设计答辩</Text>
+        <Text style={{ fontSize: 15, color: '#0E3F8C', fontWeight: 'bold' }}>08 / 14</Text>
+    </Box>
+</Slide>

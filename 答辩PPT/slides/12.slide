@@ -1,0 +1,76 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'column', background: '#FFFFFF', overflow: 'hidden' }}>
+
+    <Box style={{ height: 52, background: '#0E3F8C', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 15, color: '#FFFFFF', letterSpacing: 1 }}>高校实验室预约与设备运维系统</Text>
+        <Text style={{ fontSize: 15, color: '#9FBCE8', letterSpacing: 1 }}>03　实现与测试</Text>
+    </Box>
+
+    <Box style={{ paddingLeft: 40, paddingRight: 40, paddingTop: 12 }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#0E3F8C', letterSpacing: 0.5 }}>设备运维：五段闭环与 102 条留痕</Text>
+            <Text style={{ fontSize: 14, color: '#8B97A8' }}>工单详情抽屉 · 逐条时间轴</Text>
+        </Box>
+        <Box style={{ width: 56, height: 3, background: '#1E4FA8', marginTop: 8 }} />
+    </Box>
+
+    <Box style={{ flex: 1, flexDirection: 'row', gap: 20, paddingLeft: 40, paddingRight: 40, paddingTop: 12, paddingBottom: 10 }}>
+
+        {/* 左：五段流程 */}
+        <Box style={{ width: 330, background: '#0E3F8C', flexDirection: 'column', justifyContent: 'space-between', paddingTop: 22, paddingBottom: 22, paddingLeft: 22, paddingRight: 22 }}>
+
+            <Box style={{ flexDirection: 'column' }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 8 }}>
+                    <Text style={{ fontSize: 54, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 0.9 }}>5</Text>
+                    <Text style={{ fontSize: 16, color: '#9FBCE8', paddingBottom: 5 }}>段闭环</Text>
+                </Box>
+                <Text style={{ fontSize: 13, color: '#9FBCE8', marginTop: 8 }}>26 张工单 · 102 条流转记录</Text>
+                <Box style={{ width: 44, height: 2, background: '#3D7BD9', marginTop: 14 }} />
+
+                <Box style={{ flexDirection: 'column', gap: 8, marginTop: 18 }}>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', background: '#12407F', paddingTop: 9, paddingBottom: 9, paddingLeft: 12, paddingRight: 12 }}>
+                        <Text style={{ fontSize: 15, color: '#FFFFFF' }}>① 待派单</Text>
+                        <Text style={{ fontSize: 14, color: '#FFC107', fontWeight: 'bold' }}>2</Text>
+                    </Box>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', background: '#12407F', paddingTop: 9, paddingBottom: 9, paddingLeft: 12, paddingRight: 12 }}>
+                        <Text style={{ fontSize: 15, color: '#FFFFFF' }}>② 已派单</Text>
+                        <Text style={{ fontSize: 14, color: '#FFC107', fontWeight: 'bold' }}>3</Text>
+                    </Box>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', background: '#12407F', paddingTop: 9, paddingBottom: 9, paddingLeft: 12, paddingRight: 12 }}>
+                        <Text style={{ fontSize: 15, color: '#FFFFFF' }}>③ 维修中</Text>
+                        <Text style={{ fontSize: 14, color: '#FFC107', fontWeight: 'bold' }}>4</Text>
+                    </Box>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', background: '#12407F', paddingTop: 9, paddingBottom: 9, paddingLeft: 12, paddingRight: 12 }}>
+                        <Text style={{ fontSize: 15, color: '#FFFFFF' }}>④ 已完工</Text>
+                        <Text style={{ fontSize: 14, color: '#FFC107', fontWeight: 'bold' }}>3</Text>
+                    </Box>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', background: '#1E4FA8', paddingTop: 9, paddingBottom: 9, paddingLeft: 12, paddingRight: 12 }}>
+                        <Text style={{ fontSize: 15, color: '#FFFFFF', fontWeight: 'bold' }}>⑤ 已验收</Text>
+                        <Text style={{ fontSize: 14, color: '#FFFFFF', fontWeight: 'bold' }}>14</Text>
+                    </Box>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'column', gap: 6 }}>
+                <Box style={{ height: 1, background: '#2E5FA8', marginBottom: 8 }} />
+                <Text style={{ fontSize: 13, color: '#D6E3F6', lineHeight: 1.6 }}>设备状态随单据联动：提交即 REPAIR，验收回 IDLE。</Text>
+            </Box>
+        </Box>
+
+        {/* 右：截图 */}
+        <Box style={{ flex: 1, flexDirection: 'column' }}>
+            <Box style={{ width: 800, height: 500, border: '1px solid #C9CFDA', background: '#F7F9FC' }}>
+                <Image src="assets/shot_repair_detail.png" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+            </Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                <Text style={{ fontSize: 14, color: '#8B97A8' }}>工单详情抽屉：设备信息、故障类型、费用与逐条流转时间轴</Text>
+                <Text style={{ fontSize: 14, color: '#1E4FA8', fontWeight: 'bold' }}>5 种故障类型 · 26 张工单</Text>
+            </Box>
+        </Box>
+
+    </Box>
+
+    <Box style={{ height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 14, color: '#8B97A8' }}>计算机科学与技术学院 · 毕业设计答辩</Text>
+        <Text style={{ fontSize: 15, color: '#0E3F8C', fontWeight: 'bold' }}>12 / 14</Text>
+    </Box>
+</Slide>

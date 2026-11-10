@@ -1,0 +1,113 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'column', background: '#0E3F8C', overflow: 'hidden' }}>
+
+    <Box style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between', paddingTop: 52, paddingBottom: 42, paddingLeft: 72, paddingRight: 72 }}>
+
+        {/* 标题 */}
+        <Box style={{ flexDirection: 'column' }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                <Box style={{ width: 26, height: 2, background: '#3D7BD9' }} />
+                <Text style={{ fontSize: 14, color: '#9FBCE8', letterSpacing: 3 }}>CONCLUSION</Text>
+            </Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 8 }}>
+                <Text style={{ fontSize: 44, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 2 }}>总结与展望</Text>
+                <Text style={{ fontSize: 15, color: '#8FAEDD', paddingBottom: 6 }}>三条主线收束 · 三项不足待续</Text>
+            </Box>
+            <Box style={{ width: 76, height: 3, background: '#3D7BD9', marginTop: 12 }} />
+        </Box>
+
+        {/* 两栏 */}
+        <Box style={{ flex: 1, flexDirection: 'row', gap: 40, marginTop: 18 }}>
+
+            <Box style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
+                <Box style={{ flexDirection: 'column' }}>
+                    <Text style={{ fontSize: 17, color: '#FFC107', fontWeight: 'bold', letterSpacing: 1 }}>做成了什么</Text>
+                    <Box style={{ flexDirection: 'column', gap: 12, marginTop: 14 }}>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', width: 24, height: 24, textAlign: 'center' }}>1</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>一套数据模型同时约束「时间」与「状态」，两条业务线共用台账</Text>
+                        </Box>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', width: 24, height: 24, textAlign: 'center' }}>2</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>冲突校验前移到提交与审批两个关口，定时任务兜底收口</Text>
+                        </Box>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', width: 24, height: 24, textAlign: 'center' }}>3</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>权限落在接口层，越权请求一律 403，不依赖前端隐藏菜单</Text>
+                        </Box>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', width: 24, height: 24, textAlign: 'center' }}>4</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>全链路留痕：102 条流转记录支撑每一次责任追溯</Text>
+                        </Box>
+                    </Box>
+                </Box>
+
+                <Box style={{ flexDirection: 'column', gap: 6, borderTop: '1px solid #3D7BD9', paddingTop: 12 }}>
+                    <Text style={{ fontSize: 13, color: '#7FA0D2', letterSpacing: 1 }}>可复现</Text>
+                    <Text style={{ fontSize: 15, color: '#D6E3F6', lineHeight: 1.5 }}>从选实验室、审批、排期到报修验收，两条主线全链路可跑通、可回放。</Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
+                <Box style={{ flexDirection: 'column' }}>
+                    <Text style={{ fontSize: 17, color: '#FFC107', fontWeight: 'bold', letterSpacing: 1 }}>还差什么</Text>
+                    <Box style={{ flexDirection: 'column', gap: 12, marginTop: 14 }}>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#0E3F8C', background: '#FFC107', width: 24, height: 24, textAlign: 'center' }}>1</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>并发下仍可能双通过，后续引入行锁或乐观锁，把校验压到数据库层</Text>
+                        </Box>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#0E3F8C', background: '#FFC107', width: 24, height: 24, textAlign: 'center' }}>2</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>报修尚无备件库存与工时成本核算，运维成本口径不完整</Text>
+                        </Box>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#0E3F8C', background: '#FFC107', width: 24, height: 24, textAlign: 'center' }}>3</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>通知仅站内公告，未接短信或企业微信，触达仍靠用户主动查看</Text>
+                        </Box>
+                        <Box style={{ flexDirection: 'row', gap: 12, paddingBottom: 12, borderBottom: '1px solid #2E5FA8' }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#0E3F8C', background: '#FFC107', width: 24, height: 24, textAlign: 'center' }}>4</Text>
+                            <Text style={{ fontSize: 17, color: '#E8EFF8', lineHeight: 1.5, flex: 1 }}>尚未覆盖移动端与多校区，当前为单校区单实例部署</Text>
+                        </Box>
+                    </Box>
+                </Box>
+
+                <Box style={{ flexDirection: 'column', gap: 6, borderTop: '1px solid #3D7BD9', paddingTop: 12 }}>
+                    <Text style={{ fontSize: 13, color: '#7FA0D2', letterSpacing: 1 }}>优先级</Text>
+                    <Text style={{ fontSize: 15, color: '#D6E3F6', lineHeight: 1.5 }}>并发控制 &gt; 成本核算 &gt; 消息触达——先解决「会出错」的，再解决「不够好用」的。</Text>
+                </Box>
+            </Box>
+
+        </Box>
+
+        {/* 数据条 */}
+        <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid #2E5FA8', borderBottom: '1px solid #2E5FA8', paddingTop: 12, paddingBottom: 12, marginTop: 16 }}>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 7 }}>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>12</Text>
+                <Text style={{ fontSize: 14, color: '#9FBCE8', paddingBottom: 3 }}>间实验室</Text>
+            </Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 7 }}>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>237</Text>
+                <Text style={{ fontSize: 14, color: '#9FBCE8', paddingBottom: 3 }}>台设备</Text>
+            </Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 7 }}>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>384</Text>
+                <Text style={{ fontSize: 14, color: '#9FBCE8', paddingBottom: 3 }}>条预约</Text>
+            </Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 7 }}>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#FFFFFF' }}>26</Text>
+                <Text style={{ fontSize: 14, color: '#9FBCE8', paddingBottom: 3 }}>张工单</Text>
+            </Box>
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 7 }}>
+                <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#FFC107' }}>33</Text>
+                <Text style={{ fontSize: 14, color: '#9FBCE8', paddingBottom: 3 }}>项断言通过</Text>
+            </Box>
+        </Box>
+
+        {/* 致谢 */}
+        <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 22, marginTop: 14 }}>
+            <Box style={{ width: 54, height: 1, background: '#3D7BD9' }} />
+            <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#FFFFFF', letterSpacing: 4 }}>恳请各位老师批评指正</Text>
+            <Box style={{ width: 54, height: 1, background: '#3D7BD9' }} />
+        </Box>
+
+    </Box>
+</Slide>

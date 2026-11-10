@@ -1,0 +1,80 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'row', background: '#F7F9FC', overflow: 'hidden' }}>
+
+    <Box style={{ width: 14, height: 720, background: '#0E3F8C' }} />
+
+    <Box style={{ flex: 1, height: 720, flexDirection: 'column', justifyContent: 'space-between', paddingTop: 60, paddingBottom: 58, paddingLeft: 68, paddingRight: 68 }}>
+
+        <Box style={{ flexDirection: 'column' }}>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+                <Box style={{ flexDirection: 'column', paddingBottom: 10 }}>
+                    <Text style={{ fontSize: 15, color: '#1E4FA8', letterSpacing: 4 }}>第 二 章</Text>
+                    <Text style={{ fontSize: 44, fontWeight: 'bold', color: '#0E3F8C', marginTop: 10, letterSpacing: 1 }}>系统设计</Text>
+                    <Box style={{ width: 72, height: 3, background: '#3D7BD9', marginTop: 18 }} />
+                    <Text style={{ fontSize: 15, color: '#8B97A8', marginTop: 12, letterSpacing: 0.5 }}>P07 — P09　·　共 3 页　·　约 3 分钟</Text>
+                </Box>
+                <Text style={{ fontSize: 208, fontWeight: 'bold', color: '#C3D6EF', lineHeight: 0.82, letterSpacing: -6 }}>02</Text>
+            </Box>
+
+            <Box style={{ flexDirection: 'column', gap: 18, marginTop: 34 }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                    <Box style={{ width: 26, height: 26, background: '#1E4FA8', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 13, color: '#FFFFFF', fontWeight: 'bold' }}>1</Text>
+                    </Box>
+                    <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.55, width: 1090 }}>
+                        <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>架构怎么分：</span>Vue3 表现层 / Spring Boot 接口层 / MySQL 持久层，三层职责单一，接口统一返回体。
+                    </Text>
+                </Box>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                    <Box style={{ width: 26, height: 26, background: '#1E4FA8', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 13, color: '#FFFFFF', fontWeight: 'bold' }}>2</Text>
+                    </Box>
+                    <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.55, width: 1090 }}>
+                        <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>数据怎么建：</span>7 张表按「主数据 / 业务单据 / 过程留痕」三类划分，冲突查询直接走联合索引。
+                    </Text>
+                </Box>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                    <Box style={{ width: 26, height: 26, background: '#1E4FA8', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 13, color: '#FFFFFF', fontWeight: 'bold' }}>3</Text>
+                    </Box>
+                    <Text style={{ fontSize: 21, color: '#1A2230', lineHeight: 1.55, width: 1090 }}>
+                        <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>约束写在哪：</span>时间冲突压成一个不等式，业务流程压成两条单向状态机。
+                    </Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'row', gap: 16, marginTop: 26 }}>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 12, background: '#FFFFFF', border: '1px solid #D6DCE5', paddingTop: 12, paddingBottom: 12, paddingLeft: 14, paddingRight: 14 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 7, paddingRight: 7, paddingTop: 3, paddingBottom: 3 }}>P07</Text>
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#1A2230' }}>系统架构与技术选型</Text>
+                        <Text style={{ fontSize: 13, color: '#8B97A8', marginTop: 3 }}>三层落地 · 三条选型理由</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 12, background: '#FFFFFF', border: '1px solid #D6DCE5', paddingTop: 12, paddingBottom: 12, paddingLeft: 14, paddingRight: 14 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 7, paddingRight: 7, paddingTop: 3, paddingBottom: 3 }}>P08</Text>
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#1A2230' }}>数据库设计：7 张表两条业务线</Text>
+                        <Text style={{ fontSize: 13, color: '#8B97A8', marginTop: 3 }}>ER 关系 · 索引设计</Text>
+                    </Box>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 12, background: '#FFFFFF', border: '1px solid #D6DCE5', paddingTop: 12, paddingBottom: 12, paddingLeft: 14, paddingRight: 14 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 7, paddingRight: 7, paddingTop: 3, paddingBottom: 3 }}>P09</Text>
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#1A2230' }}>核心机制：一个不等式</Text>
+                        <Text style={{ fontSize: 13, color: '#8B97A8', marginTop: 3 }}>冲突校验 · 双状态机</Text>
+                    </Box>
+                </Box>
+            </Box>
+
+        </Box>
+
+        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 18, background: '#0E3F8C', paddingTop: 18, paddingBottom: 18, paddingLeft: 24, paddingRight: 24 }}>
+            <Box style={{ width: 3, height: 40, background: '#3D7BD9' }} />
+            <Text style={{ fontSize: 19, color: '#FFFFFF', lineHeight: 1.6, flex: 1 }}>
+                设计的分量不在画了多少张图，而在 <span style={{ fontWeight: 'bold', color: '#FFC107' }}>约束到底写在了哪一层</span>。
+            </Text>
+        </Box>
+
+    </Box>
+</Slide>

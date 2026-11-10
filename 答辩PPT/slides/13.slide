@@ -1,0 +1,122 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'column', background: '#FFFFFF', overflow: 'hidden' }}>
+
+    <Box style={{ height: 52, background: '#0E3F8C', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 15, color: '#FFFFFF', letterSpacing: 1 }}>高校实验室预约与设备运维系统</Text>
+        <Text style={{ fontSize: 15, color: '#9FBCE8', letterSpacing: 1 }}>03　实现与测试</Text>
+    </Box>
+
+    <Box style={{ paddingLeft: 40, paddingRight: 40, paddingTop: 12 }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#0E3F8C', letterSpacing: 0.5 }}>测试验证：33 项接口断言全部通过</Text>
+            <Text style={{ fontSize: 14, color: '#8B97A8' }}>接口级断言 + 页面级巡检</Text>
+        </Box>
+        <Box style={{ width: 56, height: 3, background: '#1E4FA8', marginTop: 8 }} />
+    </Box>
+
+    <Box style={{ flex: 1, flexDirection: 'row', gap: 22, paddingLeft: 40, paddingRight: 40, paddingTop: 12, paddingBottom: 10 }}>
+
+        {/* 左：用例表 */}
+        <Box style={{ flex: 1.24, flexDirection: 'column' }}>
+
+            <Table
+                style={{ width: '100%', height: 424 }}
+                defaultTextStyle={{ fontSize: 15, textAlign: 'left', color: '#1A2230' }}
+                defaultCellStyle={{
+                    border: {
+                        left: { width: 1, color: '#E5E7EB' },
+                        right: { width: 1, color: '#E5E7EB' },
+                        top: { width: 1, color: '#E5E7EB' },
+                        bottom: { width: 1, color: '#E5E7EB' },
+                    },
+                    padding: { left: 10, right: 10, top: 11, bottom: 11 },
+                }}
+                cells={[
+                    [
+                        { text: '用例组', textStyle: { bold: true, color: '#FFFFFF', fontSize: 15 }, cellStyle: { background: { color: '#0E3F8C' } } },
+                        { text: '覆盖的关键点', textStyle: { bold: true, color: '#FFFFFF', fontSize: 15 }, cellStyle: { background: { color: '#0E3F8C' } } },
+                        { text: '结果', textStyle: { bold: true, color: '#FFFFFF', fontSize: 15 }, cellStyle: { background: { color: '#0E3F8C' } } },
+                    ],
+                    [
+                        { text: '认证与令牌', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '登录成功、令牌失效、未授权请求拦截',
+                        { text: '通过', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: '预约管理', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '创建、区间冲突拒绝、审批、取消、越权拒绝',
+                        { text: '通过', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: '设备运维', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '五态全链路、非法跃迁拒绝、设备状态联动',
+                        { text: '通过', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: '设备台账', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '状态变更、存在在修工单时禁止删除',
+                        { text: '通过', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: '用户权限', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '重置密码、禁用账号、删除自身保护',
+                        { text: '通过', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                    [
+                        { text: '统计看板', textStyle: { bold: true, color: '#0E3F8C' } },
+                        '角色差异化 KPI 与图表聚合口径',
+                        { text: '通过', textStyle: { bold: true, color: '#1E4FA8' } },
+                    ],
+                ]}
+            />
+
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 12, background: '#F0F5FC', paddingTop: 12, paddingBottom: 12, paddingLeft: 16, paddingRight: 16, marginTop: 14 }}>
+                <Box style={{ width: 3, height: 38, background: '#1E4FA8' }} />
+                <Text style={{ fontSize: 15, color: '#1A2230', lineHeight: 1.5, flex: 1 }}>
+                    为什么写成断言：<span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>冲突校验、非法跃迁、越权访问</span> 这三类问题，界面点检很容易漏掉。
+                </Text>
+            </Box>
+
+        </Box>
+
+        {/* 右：KPI */}
+        <Box style={{ flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
+
+            <Box style={{ flexDirection: 'column', background: '#0E3F8C', padding: 22 }}>
+                <Text style={{ fontSize: 13, color: '#9FBCE8', letterSpacing: 1 }}>接口断言通过率</Text>
+                <Box style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 10, marginTop: 6 }}>
+                    <Text style={{ fontSize: 76, fontWeight: 'bold', color: '#FFFFFF', lineHeight: 0.95 }}>33</Text>
+                    <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#3D7BD9', paddingBottom: 8 }}>/ 33</Text>
+                </Box>
+                <Text style={{ fontSize: 15, color: '#D6E3F6', marginTop: 8 }}>覆盖 6 组业务场景 · 全部通过</Text>
+            </Box>
+
+            <Box style={{ flexDirection: 'row', gap: 12 }}>
+                <Box style={{ flex: 1, flexDirection: 'column', background: '#F7F9FC', border: '1px solid #D6DCE5', padding: 14 }}>
+                    <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.1 }}>13</Text>
+                    <Text style={{ fontSize: 13, color: '#4A5568', marginTop: 4, lineHeight: 1.4 }}>个页面自动化巡检</Text>
+                    <Text style={{ fontSize: 13, color: '#1E4FA8', fontWeight: 'bold', marginTop: 4 }}>0 控制台报错</Text>
+                </Box>
+                <Box style={{ flex: 1, flexDirection: 'column', background: '#F7F9FC', border: '1px solid #D6DCE5', padding: 14 }}>
+                    <Text style={{ fontSize: 30, fontWeight: 'bold', color: '#0E3F8C', lineHeight: 1.1 }}>48</Text>
+                    <Text style={{ fontSize: 13, color: '#4A5568', marginTop: 4, lineHeight: 1.4 }}>个 REST 接口</Text>
+                    <Text style={{ fontSize: 13, color: '#1E4FA8', fontWeight: 'bold', marginTop: 4 }}>8 个控制器</Text>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'column', gap: 8, background: '#F0F5FC', padding: 16 }}>
+                <Text style={{ fontSize: 13, color: '#1E4FA8', letterSpacing: 1 }}>已验证的四条业务约束</Text>
+                <Text style={{ fontSize: 14, color: '#1A2230', lineHeight: 1.6 }}>
+                    ① 时间重叠必被拒绝　② 非法状态跃迁必抛异常<br />
+                    ③ 越权请求返回 403　④ 在修设备不可删除
+                </Text>
+            </Box>
+
+        </Box>
+
+    </Box>
+
+    <Box style={{ height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 14, color: '#8B97A8' }}>计算机科学与技术学院 · 毕业设计答辩</Text>
+        <Text style={{ fontSize: 15, color: '#0E3F8C', fontWeight: 'bold' }}>13 / 14</Text>
+    </Box>
+</Slide>

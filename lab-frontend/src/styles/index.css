@@ -1,0 +1,160 @@
+:root {
+  --brand: #3b5bdb;
+  --brand-2: #5c7cfa;
+  --brand-soft: #eef2ff;
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #7b8698;
+  --border: #e9edf5;
+  --radius: 14px;
+
+  --el-color-primary: #3b5bdb;
+  --el-color-primary-light-3: #6b85e6;
+  --el-color-primary-light-5: #93a7ec;
+  --el-color-primary-light-7: #bcc9f3;
+  --el-color-primary-light-8: #d3dcf8;
+  --el-color-primary-light-9: #eef2ff;
+  --el-border-radius-base: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ---------- 通用页面结构 ---------- */
+.page {
+  padding: 22px 26px 30px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin: 0 0 6px;
+}
+
+.page-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.panel-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-title::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--brand);
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.toolbar .spacer {
+  flex: 1;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.mono {
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 12.5px;
+}
+
+/* ---------- Element Plus 微调 ---------- */
+.el-card {
+  border-radius: var(--radius);
+  border-color: var(--border);
+}
+
+.el-table th.el-table__cell {
+  background: #f8fafd !important;
+  color: #4b5563;
+  font-weight: 600;
+}
+
+.el-table .el-table__cell {
+  padding: 10px 0;
+}
+
+.el-dialog {
+  border-radius: 16px;
+}
+
+.el-drawer__header {
+  margin-bottom: 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.el-tag {
+  border-radius: 6px;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d6dbe7;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c2c9d8;
+}

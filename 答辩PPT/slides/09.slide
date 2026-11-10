@@ -1,0 +1,154 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'column', background: '#FFFFFF', overflow: 'hidden' }}>
+
+    <Box style={{ height: 52, background: '#0E3F8C', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 15, color: '#FFFFFF', letterSpacing: 1 }}>高校实验室预约与设备运维系统</Text>
+        <Text style={{ fontSize: 15, color: '#9FBCE8', letterSpacing: 1 }}>02　系统设计</Text>
+    </Box>
+
+    <Box style={{ paddingLeft: 40, paddingRight: 40, paddingTop: 12 }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#0E3F8C', letterSpacing: 0.5 }}>核心机制：一个不等式解决「抢实验室」</Text>
+            <Text style={{ fontSize: 14, color: '#8B97A8' }}>时间约束 + 状态约束，两条线都写进代码</Text>
+        </Box>
+        <Box style={{ width: 56, height: 3, background: '#1E4FA8', marginTop: 8 }} />
+    </Box>
+
+    <Box style={{ flex: 1, flexDirection: 'row', gap: 20, paddingLeft: 40, paddingRight: 40, paddingTop: 12, paddingBottom: 10 }}>
+
+        {/* 左：判定式 */}
+        <Box style={{ flex: 1, flexDirection: 'column', background: '#F0F5FC', border: '1px solid #C3D6EF', padding: 22 }}>
+
+            <Text style={{ fontSize: 13, color: '#1E4FA8', letterSpacing: 2 }}>冲突判定式</Text>
+            <Text style={{ fontSize: 38, fontWeight: 'bold', color: '#0E3F8C', marginTop: 10, letterSpacing: 1 }}>s1 &lt; e2 ∧ e1 &gt; s2</Text>
+            <Text style={{ fontSize: 15, color: '#4A5568', lineHeight: 1.6, marginTop: 10 }}>
+                两个半开区间相交 ⟺ 我的开始早于你的结束，且我的结束晚于你的开始。把「是否重叠」压成一次比较。
+            </Text>
+
+            <Box style={{ height: 1, background: '#C3D6EF', marginTop: 16, marginBottom: 14 }} />
+
+            <Text style={{ fontSize: 13, color: '#1E4FA8', letterSpacing: 2 }}>落到 SQL</Text>
+            <Box style={{ background: '#0E3F8C', paddingTop: 12, paddingBottom: 12, paddingLeft: 14, paddingRight: 14, marginTop: 8 }}>
+                <Text style={{ fontSize: 14, color: '#D6E3F6', lineHeight: 1.7 }}>
+                    WHERE lab_id = ?<br />
+                    AND start_time &lt; :end<br />
+                    AND end_time &gt; :start
+                </Text>
+            </Box>
+
+            <Box style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-end', gap: 8, marginTop: 16 }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2 }}>1</Text>
+                    <Text style={{ fontSize: 14, color: '#1A2230', flex: 1, lineHeight: 1.5 }}>提交时：实验室占用 + 本人时间冲突，双查</Text>
+                </Box>
+                <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2 }}>2</Text>
+                    <Text style={{ fontSize: 14, color: '#1A2230', flex: 1, lineHeight: 1.5 }}>审批时：二次复核，防审批期间被他人抢占</Text>
+                </Box>
+                <Box style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+                    <Text style={{ fontSize: 13, fontWeight: 'bold', color: '#FFFFFF', background: '#1E4FA8', paddingLeft: 6, paddingRight: 6, paddingTop: 2, paddingBottom: 2 }}>3</Text>
+                    <Text style={{ fontSize: 14, color: '#1A2230', flex: 1, lineHeight: 1.5 }}>定时任务：每 10 分钟收口超时未结束的预约</Text>
+                </Box>
+            </Box>
+        </Box>
+
+        {/* 右：两条状态机 */}
+        <Box style={{ flex: 1.42, flexDirection: 'column', justifyContent: 'space-between' }}>
+
+            <Box style={{ flex: 1, flexDirection: 'column', background: '#FFFFFF', border: '1px solid #D6DCE5', padding: 18, justifyContent: 'space-between' }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ fontSize: 19, fontWeight: 'bold', color: '#0E3F8C' }}>预约状态机</Text>
+                    <Text style={{ fontSize: 13, color: '#8B97A8' }}>全库 384 条</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12 }}>
+                    <Box style={{ background: '#FFF8E1', border: '1px solid #FFC107', paddingTop: 6, paddingBottom: 6, paddingLeft: 10, paddingRight: 10 }}>
+                        <Text style={{ fontSize: 14, color: '#8A6D00', fontWeight: 'bold' }}>待审批</Text>
+                    </Box>
+                    <Text style={{ fontSize: 15, color: '#8B97A8' }}>→</Text>
+                    <Box style={{ background: '#E8EFF8', border: '1px solid #3D7BD9', paddingTop: 6, paddingBottom: 6, paddingLeft: 10, paddingRight: 10 }}>
+                        <Text style={{ fontSize: 14, color: '#1E4FA8', fontWeight: 'bold' }}>已批准</Text>
+                    </Box>
+                    <Text style={{ fontSize: 15, color: '#8B97A8' }}>→</Text>
+                    <Box style={{ background: '#F0F5FC', border: '1px solid #C3D6EF', paddingTop: 6, paddingBottom: 6, paddingLeft: 10, paddingRight: 10 }}>
+                        <Text style={{ fontSize: 14, color: '#4A5568', fontWeight: 'bold' }}>已完结</Text>
+                    </Box>
+                    <Text style={{ fontSize: 12, color: '#8B97A8', marginLeft: 6 }}>正常流转</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 8 }}>
+                    <Text style={{ fontSize: 12, color: '#8B97A8', width: 52 }}>异常出口</Text>
+                    <Box style={{ background: '#FBEDEC', border: '1px solid #D9534F', paddingTop: 5, paddingBottom: 5, paddingLeft: 9, paddingRight: 9 }}>
+                        <Text style={{ fontSize: 13, color: '#D9534F', fontWeight: 'bold' }}>已驳回</Text>
+                    </Box>
+                    <Box style={{ background: '#F7F9FC', border: '1px solid #C9CFDA', paddingTop: 5, paddingBottom: 5, paddingLeft: 9, paddingRight: 9 }}>
+                        <Text style={{ fontSize: 13, color: '#4A5568', fontWeight: 'bold' }}>已取消</Text>
+                    </Box>
+                    <Text style={{ fontSize: 13, color: '#8B97A8', marginLeft: 4 }}>仅从「待审批 / 已批准」可退出</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'column', gap: 4 }}>
+                    <Text style={{ fontSize: 12, color: '#8B97A8', letterSpacing: 1 }}>提交时的四项校验</Text>
+                    <Text style={{ fontSize: 14, color: '#1A2230', lineHeight: 1.5 }}>单次 30 分钟 – 8 小时 · 提前不超过 30 天 · 须落在开放时段内 · 不超过工位容量</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'row', height: 8, marginTop: 12 }}>
+                    <Box style={{ width: '6%', height: 8, background: '#FFC107' }} />
+                    <Box style={{ width: '14%', height: 8, background: '#3D7BD9' }} />
+                    <Box style={{ width: '67%', height: 8, background: '#C3D6EF' }} />
+                    <Box style={{ width: '10%', height: 8, background: '#C9CFDA' }} />
+                    <Box style={{ width: '3%', height: 8, background: '#D9534F' }} />
+                </Box>
+                <Text style={{ fontSize: 12, color: '#8B97A8', marginTop: 6 }}>待审批 24 · 已批准 54 · 已完结 256 · 已取消 37 · 已驳回 13</Text>
+            </Box>
+
+            <Box style={{ flex: 1, flexDirection: 'column', background: '#FFFFFF', border: '1px solid #D6DCE5', padding: 18, justifyContent: 'space-between' }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ fontSize: 19, fontWeight: 'bold', color: '#0E3F8C' }}>报修状态机</Text>
+                    <Text style={{ fontSize: 13, color: '#8B97A8' }}>全库 26 张工单</Text>
+                </Box>
+
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 12 }}>
+                    <Box style={{ background: '#FFF8E1', border: '1px solid #FFC107', paddingTop: 6, paddingBottom: 6, paddingLeft: 8, paddingRight: 8 }}>
+                        <Text style={{ fontSize: 14, color: '#8A6D00', fontWeight: 'bold' }}>待派单</Text>
+                    </Box>
+                    <Text style={{ fontSize: 14, color: '#8B97A8' }}>→</Text>
+                    <Box style={{ background: '#E8EFF8', border: '1px solid #3D7BD9', paddingTop: 6, paddingBottom: 6, paddingLeft: 8, paddingRight: 8 }}>
+                        <Text style={{ fontSize: 14, color: '#1E4FA8', fontWeight: 'bold' }}>已派单</Text>
+                    </Box>
+                    <Text style={{ fontSize: 14, color: '#8B97A8' }}>→</Text>
+                    <Box style={{ background: '#E8EFF8', border: '1px solid #3D7BD9', paddingTop: 6, paddingBottom: 6, paddingLeft: 8, paddingRight: 8 }}>
+                        <Text style={{ fontSize: 14, color: '#1E4FA8', fontWeight: 'bold' }}>维修中</Text>
+                    </Box>
+                    <Text style={{ fontSize: 14, color: '#8B97A8' }}>→</Text>
+                    <Box style={{ background: '#F0F5FC', border: '1px solid #C3D6EF', paddingTop: 6, paddingBottom: 6, paddingLeft: 8, paddingRight: 8 }}>
+                        <Text style={{ fontSize: 14, color: '#4A5568', fontWeight: 'bold' }}>已完工</Text>
+                    </Box>
+                    <Text style={{ fontSize: 14, color: '#8B97A8' }}>→</Text>
+                    <Box style={{ background: '#F0F5FC', border: '1px solid #C3D6EF', paddingTop: 6, paddingBottom: 6, paddingLeft: 8, paddingRight: 8 }}>
+                        <Text style={{ fontSize: 14, color: '#4A5568', fontWeight: 'bold' }}>已验收</Text>
+                    </Box>
+                </Box>
+
+                <Box style={{ flexDirection: 'row', height: 8, marginTop: 12 }}>
+                    <Box style={{ width: '8%', height: 8, background: '#FFC107' }} />
+                    <Box style={{ width: '12%', height: 8, background: '#3D7BD9' }} />
+                    <Box style={{ width: '15%', height: 8, background: '#3D7BD9' }} />
+                    <Box style={{ width: '12%', height: 8, background: '#C3D6EF' }} />
+                    <Box style={{ width: '53%', height: 8, background: '#C3D6EF' }} />
+                </Box>
+                <Text style={{ fontSize: 12, color: '#8B97A8', marginTop: 6 }}>待派单 2 · 已派单 3 · 维修中 4 · 已完工 3 · 已验收 14　·　102 条流转记录</Text>
+
+                <Text style={{ fontSize: 14, color: '#1A2230', lineHeight: 1.5, marginTop: 10 }}>
+                    设备状态随单据联动：提交即置 <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>REPAIR</span>，验收通过回置 <span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>IDLE</span>——在修的设备不会再被预约。
+                </Text>
+            </Box>
+
+        </Box>
+
+    </Box>
+
+    <Box style={{ height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 14, color: '#8B97A8' }}>计算机科学与技术学院 · 毕业设计答辩</Text>
+        <Text style={{ fontSize: 15, color: '#0E3F8C', fontWeight: 'bold' }}>09 / 14</Text>
+    </Box>
+</Slide>

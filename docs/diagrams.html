@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>系统设计图</title>
+<style>
+  body {
+    margin: 0;
+    padding: 24px;
+    background: #f5f7fb;
+    font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  }
+  .wrap {
+    width: 1060px;
+    margin: 0 auto 26px;
+    background: #fff;
+    border: 1px solid #e9edf5;
+    border-radius: 14px;
+    padding: 22px 24px 26px;
+  }
+  .cap {
+    font-size: 13px;
+    color: #8b95a8;
+    margin-bottom: 12px;
+    letter-spacing: 0.4px;
+  }
+  .mermaid { text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="fig1">
+  <div class="cap">图 1  系统功能结构图</div>
+  <pre class="mermaid">
+flowchart TB
+  ROOT["高校实验室预约与设备运维系统"]
+  ROOT --> A["预约管理"]
+  ROOT --> B["设备运维"]
+  ROOT --> C["数据看板"]
+  ROOT --> D["系统管理"]
+  A --> A1["实验室浏览"]
+  A --> A2["在线预约"]
+  A --> A3["审批流转"]
+  A --> A4["预约日历"]
+  A --> A5["我的预约"]
+  B --> B1["设备台账"]
+  B --> B2["故障报修"]
+  B --> B3["派单调度"]
+  B --> B4["维修处理"]
+  B --> B5["验收评价"]
+  C --> C1["指标概览"]
+  C --> C2["趋势分析"]
+  C --> C3["分布统计"]
+  D --> D1["用户与角色"]
+  D --> D2["通知公告"]
+  D --> D3["个人中心"]
+  </pre>
+</div>
+
+<div class="wrap" id="fig2">
+  <div class="cap">图 2  系统总体架构图</div>
+  <pre class="mermaid">
+flowchart LR
+  subgraph P["表现层"]
+    P1["Vue3 + Element Plus<br/>页面与交互"]
+    P2["ECharts<br/>可视化图表"]
+  end
+  subgraph I["接口层"]
+    I1["RESTful Controller"]
+    I2["JWT 鉴权拦截器"]
+    I3["统一响应与异常处理"]
+  end
+  subgraph S["业务层"]
+    S1["预约服务"]
+    S2["报修服务"]
+    S3["统计服务"]
+    S4["用户与权限"]
+  end
+  subgraph D["数据层"]
+    D1["MyBatis-Plus<br/>ORM 与分页"]
+    D2[("MySQL 8.0<br/>7 张业务表")]
+  end
+  P1 --> I1
+  P2 --> I1
+  I1 --> I2
+  I2 --> I3
+  I3 --> S1
+  I3 --> S2
+  I3 --> S3
+  I3 --> S4
+  S1 --> D1
+  S2 --> D1
+  S3 --> D1
+  S4 --> D1
+  D1 --> D2
+  </pre>
+</div>
+
+<div class="wrap" id="fig3">
+  <div class="cap">图 3  数据库 ER 图（实体属性与联系）</div>
+  <pre class="mermaid">
+flowchart LR
+  U["<b>用户表 sys_user</b><br/>PK id 主键<br/>username 账号<br/>password 密码<br/>role 角色<br/>user_no 学工号<br/>dept 学院<br/>status 状态"]
+  L["<b>实验室表 lab</b><br/>PK id 主键<br/>code 编号<br/>name 名称<br/>building / room<br/>capacity 容量<br/>open_time/close_time<br/>need_approval 审批"]
+  R["<b>预约表 reservation</b><br/>PK id 主键<br/>FK user_id 申请人<br/>FK lab_id 实验室<br/>start_time/end_time<br/>headcount 人数<br/>status 状态<br/>FK approver_id"]
+  E["<b>设备表 equipment</b><br/>PK id 主键<br/>code 资产编号<br/>FK lab_id 实验室<br/>category 类别<br/>model / brand<br/>price 价值<br/>status 状态"]
+  RO["<b>报修工单 repair_order</b><br/>PK id 主键<br/>FK equipment_id 设备<br/>FK reporter_id 报修人<br/>FK repairer_id 维修员<br/>fault_desc 故障描述<br/>status 状态<br/>cost 维修费用"]
+  RL["<b>流转记录 repair_log</b><br/>PK id 主键<br/>FK order_id 工单<br/>FK operator_id<br/>action 动作<br/>content 内容"]
+  N["<b>公告表 notice</b><br/>PK id 主键<br/>title 标题<br/>content 内容<br/>FK publisher_id<br/>status 状态"]
+
+  U -- "1 : N 发起" --> R
+  L -- "1 : N 被预约" --> R
+  L -- "1 : N 包含" --> E
+  E -- "1 : N 关联报修" --> RO
+  U -- "1 : N 报修 / 维修" --> RO
+  RO -- "1 : N 流转" --> RL
+  U -- "1 : N 发布" --> N
+  </pre>
+</div>
+
+<div class="wrap" id="fig4">
+  <div class="cap">图 4  实验室预约与审批流程</div>
+  <pre class="mermaid">
+flowchart TD
+  A["学生选择实验室"] --> B["选择日期与起止时间"]
+  B --> C{"时段冲突校验<br/>实验室冲突 / 个人冲突"}
+  C -- 冲突 --> C1["提示重新选择"] --> B
+  C -- 通过 --> D{"实验室是否免审批"}
+  D -- 是 --> E["直接生效 APPROVED"]
+  D -- 否 --> F["生成预约单 PENDING"]
+  F --> G["教师 / 管理员审批"]
+  G --> H{"审批结果"}
+  H -- 驳回 --> I["REJECTED 并记录意见"]
+  H -- 通过 --> J["二次冲突校验"]
+  J --> K["APPROVED 生效"]
+  E --> L["按时到场使用"]
+  K --> L
+  L --> M["结束后自动置为 FINISHED"]
+  </pre>
+</div>
+
+<div class="wrap" id="fig5">
+  <div class="cap">图 5  设备报修运维闭环流程</div>
+  <pre class="mermaid">
+flowchart TD
+  A["发现设备故障"] --> B["提交报修单 PENDING"]
+  B --> C["设备状态置为维修中"]
+  C --> D["管理员派单"]
+  D --> E["ASSIGNED 指派维修员"]
+  E --> F["维修员开始维修 REPAIRING"]
+  F --> G["填写维修说明与费用"]
+  G --> H["DONE 待验收"]
+  H --> I{"报修人验收"}
+  I -- 不通过 --> F
+  I -- 通过 --> J["VERIFIED 已完成"]
+  J --> K["设备恢复空闲"]
+  </pre>
+</div>
+
+<div class="wrap" id="fig6">
+  <div class="cap">图 6  预约单状态流转</div>
+  <pre class="mermaid">
+stateDiagram-v2
+  [*] --> PENDING : 提交申请
+  [*] --> APPROVED : 免审批实验室
+  PENDING --> APPROVED : 审批通过
+  PENDING --> REJECTED : 审批驳回
+  PENDING --> CANCELLED : 申请人取消
+  APPROVED --> CANCELLED : 开始前取消
+  APPROVED --> FINISHED : 时段结束
+  REJECTED --> [*]
+  CANCELLED --> [*]
+  FINISHED --> [*]
+  </pre>
+</div>
+
+<script src="./vendor/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    fontFamily: '"Microsoft YaHei", "PingFang SC", sans-serif',
+    themeVariables: {
+      primaryColor: '#eef2ff',
+      primaryBorderColor: '#4c6ef5',
+      primaryTextColor: '#1f2937',
+      secondaryColor: '#f8fafd',
+      tertiaryColor: '#ffffff',
+      lineColor: '#8b95a8',
+      fontSize: '14px',
+      edgeLabelBackground: '#ffffff'
+    },
+    flowchart: { curve: 'basis', nodeSpacing: 36, rankSpacing: 46, useMaxWidth: true },
+    er: { useMaxWidth: true, entityPadding: 14 },
+    state: { useMaxWidth: true }
+  });
+  mermaid.run({ querySelector: '.mermaid' }).then(() => {
+    document.body.setAttribute('data-ready', '1');
+  });
+</script>
+</body>
+</html>

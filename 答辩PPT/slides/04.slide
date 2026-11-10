@@ -1,0 +1,130 @@
+<Slide style={{ width: 1280, height: 720, padding: 0, flexDirection: 'column', background: '#FFFFFF', overflow: 'hidden' }}>
+
+    {/* A 顶条 */}
+    <Box style={{ height: 52, background: '#0E3F8C', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 15, color: '#FFFFFF', letterSpacing: 1 }}>高校实验室预约与设备运维系统</Text>
+        <Text style={{ fontSize: 15, color: '#9FBCE8', letterSpacing: 1 }}>01　背景与需求分析</Text>
+    </Box>
+
+    {/* B 标题块 */}
+    <Box style={{ paddingLeft: 40, paddingRight: 40, paddingTop: 16 }}>
+        <Box style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <Text style={{ fontSize: 34, fontWeight: 'bold', color: '#0E3F8C', letterSpacing: 0.5 }}>选题背景：两条线下流程的失效点</Text>
+            <Text style={{ fontSize: 14, color: '#8B97A8' }}>为什么值得做成一个系统</Text>
+        </Box>
+        <Box style={{ width: 56, height: 3, background: '#1E4FA8', marginTop: 12 }} />
+    </Box>
+
+    {/* C 内容区 */}
+    <Box style={{ flex: 1, flexDirection: 'row', gap: 24, paddingLeft: 40, paddingRight: 40, paddingTop: 12, paddingBottom: 10 }}>
+
+        {/* 左：两个失效点 */}
+        <Box style={{ flex: 1.72, flexDirection: 'column' }}>
+
+            <Box style={{ flex: 1, background: '#FFFFFF', border: '1px solid #D6DCE5', padding: 26, justifyContent: 'space-between' }}>
+
+                <Box style={{ flexDirection: 'row', gap: 14 }}>
+                    <Box style={{ width: 4, background: '#D9534F' }} />
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#1A2230' }}>预约排期 · 时间冲突不可见</Text>
+                            <Box style={{ background: '#FBEDEC', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2 }}>
+                                <Text style={{ fontSize: 12, color: '#D9534F', fontWeight: 'bold' }}>痛点 01</Text>
+                            </Box>
+                        </Box>
+                        <Text style={{ fontSize: 19, color: '#4A5568', lineHeight: 1.6, marginTop: 8 }}>
+                            排期靠群聊接龙与 Excel 共享表：谁先登记，谁就默认占用。两个班级在同一时段各自填表，直到双方同时到门口才发现撞车。系统上线前，管理员既无法事前判断两个时间区间是否重叠，也无从追溯这次占用是谁批准的。
+                        </Text>
+                        <Text style={{ fontSize: 18, color: '#1E4FA8', fontWeight: 'bold', marginTop: 10 }}>→ 冲突判定必须前移到「提交」这一刻</Text>
+                    </Box>
+                </Box>
+
+                <Box style={{ height: 1, background: '#E5E7EB' }} />
+
+                <Box style={{ flexDirection: 'row', gap: 14 }}>
+                    <Box style={{ width: 4, background: '#D9534F' }} />
+                    <Box style={{ flexDirection: 'column', flex: 1 }}>
+                        <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                            <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#1A2230' }}>设备运维 · 责任链断裂</Text>
+                            <Box style={{ background: '#FBEDEC', paddingLeft: 8, paddingRight: 8, paddingTop: 2, paddingBottom: 2 }}>
+                                <Text style={{ fontSize: 12, color: '#D9534F', fontWeight: 'bold' }}>痛点 02</Text>
+                            </Box>
+                        </Box>
+                        <Text style={{ fontSize: 19, color: '#4A5568', lineHeight: 1.6, marginTop: 8 }}>
+                            故障靠纸质报修单流转：学生写单、管理员派单、维修员修完签字。单据一丢，故障描述、派单时间、维修内容、验收结论四段信息就散了；更麻烦的是台账与单据之间没有联动——设备明明在修，却仍能被预约。
+                        </Text>
+                        <Text style={{ fontSize: 18, color: '#1E4FA8', fontWeight: 'bold', marginTop: 10 }}>→ 设备状态必须随工单联动，而不是靠人记</Text>
+                    </Box>
+                </Box>
+
+            </Box>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 14, background: '#E8EFF8', paddingTop: 14, paddingBottom: 14, paddingLeft: 20, paddingRight: 20, marginTop: 14 }}>
+                <Box style={{ width: 3, height: 40, background: '#1E4FA8' }} />
+                <Text style={{ fontSize: 19, color: '#1A2230', lineHeight: 1.55, flex: 1 }}>
+                    本质不是「没有系统」，而是两条流程各自为政——<span style={{ fontWeight: 'bold', color: '#0E3F8C' }}>缺少统一的时间约束与状态约束</span>。
+                </Text>
+            </Box>
+        </Box>
+
+        {/* 右：线下→线上 迁移 */}
+        <Box style={{ flex: 1, background: '#F7F9FC', border: '1px solid #D6DCE5', padding: 22, justifyContent: 'space-between' }}>
+
+            <Box style={{ flexDirection: 'column' }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Box style={{ width: 8, height: 8, background: '#8B97A8' }} />
+                    <Text style={{ fontSize: 15, color: '#4A5568', fontWeight: 'bold', letterSpacing: 1 }}>线下现状</Text>
+                </Box>
+                <Box style={{ flexDirection: 'column', gap: 8, marginTop: 12 }}>
+                    <Box style={{ background: '#FFFFFF', border: '1px dashed #C9CFDA', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#4A5568' }}>群聊接龙占时段</Text>
+                    </Box>
+                    <Box style={{ background: '#FFFFFF', border: '1px dashed #C9CFDA', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#4A5568' }}>Excel 共享表登记</Text>
+                    </Box>
+                    <Box style={{ background: '#FFFFFF', border: '1px dashed #C9CFDA', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#4A5568' }}>纸质报修单流转</Text>
+                    </Box>
+                    <Box style={{ background: '#FFFFFF', border: '1px dashed #C9CFDA', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#4A5568' }}>口头验收、无留痕</Text>
+                    </Box>
+                </Box>
+            </Box>
+
+            <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12, marginBottom: 12 }}>
+                <Box style={{ flex: 1, height: 1, background: '#C3D6EF' }} />
+                <Text style={{ fontSize: 13, color: '#1E4FA8', fontWeight: 'bold', letterSpacing: 1 }}>收敛为本系统</Text>
+                <Box style={{ flex: 1, height: 1, background: '#C3D6EF' }} />
+            </Box>
+
+            <Box style={{ flexDirection: 'column' }}>
+                <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <Box style={{ width: 8, height: 8, background: '#1E4FA8' }} />
+                    <Text style={{ fontSize: 15, color: '#0E3F8C', fontWeight: 'bold', letterSpacing: 1 }}>线上闭环</Text>
+                </Box>
+                <Box style={{ flexDirection: 'column', gap: 8, marginTop: 12 }}>
+                    <Box style={{ background: '#FFFFFF', border: '1px solid #C3D6EF', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#0E3F8C', fontWeight: 'bold' }}>时间区间冲突校验</Text>
+                    </Box>
+                    <Box style={{ background: '#FFFFFF', border: '1px solid #C3D6EF', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#0E3F8C', fontWeight: 'bold' }}>审批与状态机流转</Text>
+                    </Box>
+                    <Box style={{ background: '#FFFFFF', border: '1px solid #C3D6EF', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#0E3F8C', fontWeight: 'bold' }}>全过程流转留痕</Text>
+                    </Box>
+                    <Box style={{ background: '#FFFFFF', border: '1px solid #C3D6EF', paddingTop: 9, paddingBottom: 9, paddingLeft: 14 }}>
+                        <Text style={{ fontSize: 16, color: '#0E3F8C', fontWeight: 'bold' }}>接口级角色鉴权</Text>
+                    </Box>
+                </Box>
+            </Box>
+
+        </Box>
+
+    </Box>
+
+    {/* D 页脚 */}
+    <Box style={{ height: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 40, paddingRight: 40 }}>
+        <Text style={{ fontSize: 14, color: '#8B97A8' }}>计算机科学与技术学院 · 毕业设计答辩</Text>
+        <Text style={{ fontSize: 15, color: '#0E3F8C', fontWeight: 'bold' }}>04 / 14</Text>
+    </Box>
+</Slide>
