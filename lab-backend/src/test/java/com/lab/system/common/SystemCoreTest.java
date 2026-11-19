@@ -283,9 +283,12 @@ class SystemCoreTest {
         }
 
         @Test
-        @DisplayName("TC-T012 - 零长度时段（开始=结束）不与任何时段冲突")
-        void zeroLengthNoOverlap() {
-            assertFalse(TimeWindow.overlaps(at(10, 0), at(10, 0), at(9, 0), at(11, 0)));
+        @DisplayName("TC-T012 - 零长度时段：落在边界上不冲突，落在区间内视为冲突")
+        void zeroLengthSemantics() {
+            // 零长度 [11:00, 11:00) 与 [9:00, 11:00)：s1 < e2 不成立 → 不冲突
+            assertFalse(TimeWindow.overlaps(at(11, 0), at(11, 0), at(9, 0), at(11, 0)));
+            // 零长度 [10:00, 10:00) 落在 [9:00, 11:00) 内部 → 视为占用冲突
+            assertTrue(TimeWindow.overlaps(at(10, 0), at(10, 0), at(9, 0), at(11, 0)));
         }
 
         @ParameterizedTest
