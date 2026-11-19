@@ -7,8 +7,10 @@ import lombok.Data;
 @Data
 public class RepairCreateDTO {
 
-    @NotNull(message = "请选择报修设备")
     private Long equipmentId;
+
+    /** Asset code on the equipment label; must match ID when both are supplied. */
+    private String equipmentCode;
 
     private String faultType;
 

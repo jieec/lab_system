@@ -9,10 +9,11 @@ rem  Maintenance System.  Double-click this file to start both
 rem  backend (8080) and frontend (5173), then open the browser.
 rem ============================================================
 
-rem --- MySQL root password: 占位符，提交到仓库前请勿填写真实密码；本地运行时请改为你的密码 -------
-set "MYSQL_PASSWORD=<你的MySQL密码>"
+rem Local database and model credentials are loaded from .env by Spring Boot.
+rem Do not override MYSQL_PASSWORD with a placeholder here.
 
 set "ROOT=%~dp0"
+cd /d "%ROOT%"
 
 echo.
 echo   ==========================================================

@@ -5,7 +5,7 @@
         <h2 class="page-title">用户管理</h2>
         <div class="page-sub">共 {{ total }} 个账号，新增用户初始密码为 123456</div>
       </div>
-      <el-button type="primary" :icon="Plus" @click="openForm()">新增用户</el-button>
+      <div><el-button @click="loadAppeals">审核信用恢复申请</el-button><el-button type="primary" :icon="Plus" @click="openForm()">新增用户</el-button></div>
     </div>
 
     <div class="panel">
@@ -60,9 +60,11 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="276" fixed="right">
+        <el-table-column label="信用分" width="90"><template #default="{row}">{{ row.creditScore ?? 100 }}</template></el-table-column>
+        <el-table-column label="操作" width="350" fixed="right">
           <template #default="{ row }">
             <el-button size="small" text type="primary" @click="openForm(row)">编辑</el-button>
+            <el-button size="small" text type="primary" @click="openCredit(row)">信用调整</el-button>
             <el-button size="small" text @click="resetPwd(row)">重置密码</el-button>
             <el-button size="small" text :type="row.status === 1 ? 'warning' : 'success'" @click="toggle(row)">
               {{ row.status === 1 ? '停用' : '启用' }}
@@ -84,6 +86,25 @@
       </div>
     </div>
 
+    <el-dialog v-model="appealListVisible" title="待审核信用恢复申请" width="860px">
+      <el-table :data="pendingAppeals" stripe>
+        <el-table-column prop="userId" label="用户ID" width="90" />
+        <el-table-column prop="createTime" label="申请时间" width="165" />
+        <el-table-column prop="reason" label="说明与改进措施" min-width="260" />
+        <el-table-column label="审核" width="150"><template #default="{row}"><el-button text type="success" @click="reviewAppeal(row,true)">通过</el-button><el-button text type="danger" @click="reviewAppeal(row,false)">驳回</el-button></template></el-table-column>
+      </el-table>
+      <el-pagination v-model:current-page="appealPage" :page-size="10" :total="appealTotal" layout="total, prev, pager, next" @current-change="loadAppeals" />
+      <p>通过后至少恢复至70分，不清除近期爽约限制，处理结果会通知申请人。</p>
+    </el-dialog>
+    <el-dialog v-model="creditVisible" title="核查后调整信用分" width="520px">
+      <p>{{ creditUser?.realName }} · 当前信用分 {{ creditUser?.creditScore ?? 100 }}</p>
+      <el-form label-width="90px">
+        <el-form-item label="目标分数"><el-input-number v-model="creditTarget" :min="0" :max="100" /></el-form-item>
+        <el-form-item label="调整原因"><el-input v-model="creditReason" type="textarea" :rows="3" maxlength="200" placeholder="至少5字，说明核查依据；会通知用户并记录审计" /></el-form-item>
+      </el-form>
+      <el-alert title="近7天爽约3次的限制仍按预约记录生效，调整分数不会清除历史违约。" type="info" :closable="false" />
+      <template #footer><el-button @click="creditVisible=false">取消</el-button><el-button type="primary" :loading="creditSaving" @click="saveCredit">确认调整</el-button></template>
+    </el-dialog>
     <el-dialog v-model="formVisible" :title="form.id ? '编辑用户' : '新增用户'" width="560px" destroy-on-close>
       <el-form ref="formRef" :model="form" :rules="rules" label-width="92px">
         <el-row :gutter="16">
@@ -141,10 +162,24 @@
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus, Refresh, Search } from '@element-plus/icons-vue'
-import { userApi } from '@/api'
+import { userApi, creditApi } from '@/api'
 import { ROLE_LABEL } from '@/utils/dict'
 
 const loading = ref(false)
+const creditVisible=ref(false),creditUser=ref(null),creditTarget=ref(100),creditReason=ref(''),creditSaving=ref(false)
+const appealListVisible=ref(false),pendingAppeals=ref([]),appealPage=ref(1),appealTotal=ref(0)
+async function loadAppeals(){const res=await creditApi.appeals({pending:true,pageNum:appealPage.value});pendingAppeals.value=res.data.records;appealTotal.value=res.data.total;appealListVisible.value=true}
+async function reviewAppeal(row,approve){
+  try{const {value}=await ElMessageBox.prompt('请填写至少5字的核查依据',approve?'通过并恢复至至少70分':'驳回恢复申请',{inputValidator:v=>v?.trim().length>=5||'请填写至少5字',inputType:'textarea'});await creditApi.review(row.id,approve,value);ElMessage.success('审核完成');await loadAppeals();await load()}
+  catch(error){if(error!=='cancel'&&error!=='close')console.warn('审核未完成')}
+}
+function openCredit(row){creditUser.value=row;creditTarget.value=row.creditScore??100;creditReason.value='';creditVisible.value=true}
+async function saveCredit(){
+  if(creditReason.value.trim().length<5){ElMessage.warning('请填写至少5字的核查原因');return}
+  creditSaving.value=true
+  try{await creditApi.adjust({userId:creditUser.value.id,targetScore:creditTarget.value,reason:creditReason.value});creditVisible.value=false;ElMessage.success('信用分已调整并留痕');await load()}
+  finally{creditSaving.value=false}
+}
 const list = ref([])
 const total = ref(0)
 const query = reactive({ pageNum: 1, pageSize: 10, keyword: '', role: '', status: null })

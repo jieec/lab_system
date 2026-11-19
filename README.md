@@ -11,7 +11,7 @@
 | 后端 | Spring Boot 3.3.5 + MyBatis-Plus 3.5.7 + JWT（jjwt 0.12） + BCrypt + Spring AOP |
 | 接口文档 | Springdoc OpenAPI 3 + Knife4j 4.5（`/doc.html`） |
 | 数据库 | MySQL 8.0（utf8mb4） |
-| 测试 | JUnit 5 + Mockito（54 用例）、Python 接口回归（81 断言）、并发压测 |
+| 测试 | JUnit 5 + Mockito / MVC（100 用例）、Agent前端协议与界面测试、Python 接口回归（81 断言）、并发压测 |
 | 部署 | Docker Compose（MySQL + 后端 + Nginx 前端，一键起） |
 | 运行环境 | JDK 21、Node.js 18+、Maven 3.9 |
 
@@ -60,14 +60,14 @@
 │   │   ├── config/                 # Web、MyBatis-Plus、Jackson、OpenAPI 配置
 │   │   ├── controller/             # 11 个 REST 控制器
 │   │   ├── aop/                    # OperationLogAspect 审计切面
-│   │   ├── dto/ entity/ mapper/    # 请求对象、10 张表实体、Mapper
+│   │   ├── dto/ entity/ mapper/    # 请求对象、12 张表实体、Mapper
 │   │   ├── security/               # JWT、拦截器、角色注解、@OperationLog
 │   │   ├── service/                # 业务逻辑
 │   │   └── task/                   # 定时任务（过期 + 爽约扫描）
 │   ├── src/main/resources/
 │   │   ├── application.yml
 │   │   └── sql/schema.sql|data.sql|migrate.sql  # 建表 / 演示数据 / 幂等迁移
-│   ├── src/test/java/             # 54 个单元与 Mockito 用例
+│   ├── src/test/java/             # 100 个单元 / MVC 用例
 │   └── Dockerfile
 ├── lab-frontend/                   # 前端工程
 │   ├── src/
@@ -77,7 +77,7 @@
 │   ├── Dockerfile  nginx.conf
 │   └── scripts/screenshots.mjs    # Playwright 截图脚本
 ├── docs/                           # 需求与数据库设计文档、图表、截图、后续计划
-├── 答辩PPT/                        # 14 页答辩 PPT + 中期检查讲稿
+├── 答辩PPT/                        # 20 页项目汇报 PPT + 演示讲稿
 ├── scripts/                        # 初始化、演示数据生成、回归与并发压测
 ├── docker-compose.yml  .env.example
 └── 启动系统.bat  后端-Maven启动.bat
@@ -90,7 +90,7 @@
 双击项目根目录的 **`启动系统.bat`**，会自动完成：启动后端 8080 → 等待 15 秒 → 启动前端 5173 → 打开浏览器。
 关闭弹出的两个黑色命令行窗口即可停止服务。
 
-> 脚本里已内置本机 MySQL 密码占位符，请改为你的真实密码：编辑 `启动系统.bat` / `后端-Maven启动.bat` 中的 `set "MYSQL_PASSWORD=..."` 这一行。
+> 在根目录本地 `.env` 配置 `MYSQL_PASSWORD` 和 `LLM_API_KEY`。后端会自动读取，启动脚本不会覆盖密码；`.env` 已由 Git 忽略。
 
 ### 0-B. Docker Compose 一键部署（换机器 / 答辩现场最省事）
 
@@ -189,8 +189,8 @@ Vite 已配置 `/api` 代理到 `http://localhost:8080`。
 
 ## 五、数据库设计
 
-10 张表：`sys_user`、`lab`、`equipment`、`reservation`、`repair_order`、`repair_log`、
-`notice`、`sys_log`、`message`、`lab_closure`。
+12 张表：`sys_user`、`lab`、`equipment`、`reservation`、`repair_order`、`repair_log`、
+`notice`、`sys_log`、`message`、`lab_closure`、`credit_record`、`credit_appeal`。
 详细字段说明与 ER 图见 `docs/高校实验室预约与设备运维系统-需求分析与数据库设计.docx`。
 
 核心关系：
@@ -227,7 +227,7 @@ sys_user 1 ──< message / sys_log
 ## 七、验证脚本
 
 ```bash
-cd lab-backend && mvn test                    # 54 个单元 / Mockito 用例
+cd lab-backend && mvn test                    # 100 个单元 / Mockito / MVC 用例
 python scripts/smoke_test.py                  # 81 项接口回归断言（需后端已启动，可重复执行）
 python scripts/concurrency_test.py            # 20 并发抢同一时段，校验只有 1 条成功
 ```
@@ -247,6 +247,17 @@ python scripts/concurrency_test.py            # 20 并发抢同一时段，校�
 
 ## 九、后续计划
 
+已新增实验室智能助手：流式对话、业务工具调用、预约/取消/报修确认卡片、受限排期推荐和无Key规则演示。配置与演示见 [智能助手使用说明](docs/智能助手使用说明.md)。密钥通过后端 `LLM_API_KEY` 环境变量读取；模型API按Token收费，规则演示不调用模型。
+
 - 12 周迭代路线：`docs/后续开发计划.md`
 - AI Agent 接入方案（下一阶段）：`docs/AI-Agent接入方案.md`
 - 中期检查 5 分钟讲稿：`答辩PPT/中期检查讲稿.md`
+
+## 信用恢复与设备编号完善（2026-11-18）
+
+- 信用初始100分，签到+2、爽约-10，实际变化限制在0–100，并记录每次变化前后分数与原因。
+- 低于60分的用户可在个人中心申请恢复；管理员在用户管理审核，通过后至少恢复至70分。仅保留一个待审核申请，7天内最多通过一次，审核结果通知申请人。
+- 近7天爽约3次的限制单独生效，页面显示预计解除时间；恢复分数不清除历史记录。
+- 报修支持准确资产编号；同时提供设备ID和编号时必须匹配，设备行锁和当前维修状态防止并发重复报修。
+- 老库升级只需执行 `lab-backend/src/main/resources/sql/credit.sql`（新增两张表，不回填或重置原分数）；本机已执行。新库schema.sql已包含两张表。
+- 新增信用/设备真实联调20项通过，原有MySQL业务回归34项重新通过；当前后端测试100项通过。

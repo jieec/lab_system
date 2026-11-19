@@ -308,7 +308,7 @@ async function submitRepair() {
     if (!valid) return
     submitting.value = true
     try {
-      await repairApi.create({ equipmentId: current.value.id, ...repairForm })
+        await repairApi.create({ equipmentId: current.value.id, equipmentCode: current.value.code, ...repairForm })
       ElMessage.success('报修已提交，等待管理员派单')
       repairVisible.value = false
       load()

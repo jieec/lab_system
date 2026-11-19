@@ -58,6 +58,9 @@ public class UserService {
             throw new BizException("账号已存在");
         }
         user.setId(null);
+        user.setCreditScore(100);
+        user.setViolationCount(0);
+        user.setTokenVersion(0);
         user.setPassword(encoder.encode(DEFAULT_PASSWORD));
         if (user.getStatus() == null) {
             user.setStatus(1);
@@ -72,6 +75,9 @@ public class UserService {
         }
         user.setPassword(null);
         user.setUsername(null);
+        user.setCreditScore(null);
+        user.setViolationCount(null);
+        user.setTokenVersion(null);
         userMapper.updateById(user);
     }
 

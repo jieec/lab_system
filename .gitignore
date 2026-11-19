@@ -36,3 +36,4 @@ __pycache__/
 # ===== PPT tooling caches =====
 .cache/
 答辩PPT/.review/
+答辩PPT/.build-*/

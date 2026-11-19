@@ -1,5 +1,6 @@
 <template>
   <div class="layout">
+    <AgentAssistant />
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-logo">
@@ -96,6 +97,7 @@
 </template>
 
 <script setup>
+import AgentAssistant from '@/components/AgentAssistant.vue'
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'

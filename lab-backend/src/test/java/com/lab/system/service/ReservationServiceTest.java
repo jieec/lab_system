@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,6 +52,8 @@ class ReservationServiceTest {
     private MessageService messageService;
     @Mock
     private LabClosureService closureService;
+    @Mock
+    private CreditService creditService;
     @InjectMocks
     private ReservationService reservationService;
 
@@ -116,6 +119,22 @@ class ReservationServiceTest {
         r.setStartTime(s);
         r.setEndTime(e);
         return r;
+    }
+
+    @Test
+    void rejectCapacityOverflow() {
+        ReservationDTO d = dto(start, start.plusHours(2)); d.setHeadcount(31);
+        assertThrows(BizException.class, () -> reservationService.create(d));
+    }
+
+    @Test
+    void rejectEightHoursAndOneMinute() {
+        assertThrows(BizException.class, () -> reservationService.create(dto(start, start.plusHours(8).plusMinutes(1))));
+    }
+
+    @Test
+    void rejectOvernightReservation() {
+        assertThrows(BizException.class, () -> reservationService.create(dto(start.withHour(22), start.plusDays(1).withHour(1))));
     }
 
     @Test
@@ -235,13 +254,27 @@ class ReservationServiceTest {
     void markNoShow() {
         Reservation overdue = existing("APPROVED", start.minusDays(2), start.minusDays(2).plusHours(2));
         when(reservationMapper.selectList(any())).thenReturn(List.of(overdue));
+        when(reservationMapper.selectByIdForUpdate(overdue.getId())).thenReturn(overdue);
 
         assertEquals(1, reservationService.markNoShow());
         verify(reservationMapper).updateById(any(Reservation.class));
-        verify(userMapper).update(any(), any());
+        verify(creditService).change(any(),any(),any(),anyInt(),any());
         verify(messageService).push(any(), any(), any(), any(), any());
     }
 
+    @Test
+    void checkedInReservationCannotBeRescheduledOrCancelled() {
+        Reservation r=existing("APPROVED",start,start.plusHours(2));r.setUserId(USER_ID);r.setCheckinStatus("CHECKED_IN");
+        when(reservationMapper.selectByIdForUpdate(99L)).thenReturn(r);
+        assertThrows(BizException.class,()->reservationService.cancel(99L));
+        assertThrows(BizException.class,()->reservationService.reschedule(99L,new RescheduleDTO()));
+    }
+    @Test
+    void staleNoShowCandidateIsNotDeductedTwice() {
+        Reservation r=existing("FINISHED",start.minusDays(2),start.minusDays(2).plusHours(1));r.setCheckinStatus("NO_SHOW");
+        when(reservationMapper.selectList(any())).thenReturn(List.of(r));when(reservationMapper.selectByIdForUpdate(99L)).thenReturn(r);
+        assertEquals(0,reservationService.markNoShow());org.mockito.Mockito.verifyNoInteractions(creditService);
+    }
     @Test
     @DisplayName("改期时重新做冲突校验")
     void rescheduleRechecksConflict() {

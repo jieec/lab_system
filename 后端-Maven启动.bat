@@ -15,8 +15,8 @@ rem      ClassNotFoundException: com.lab.system.LabApplication
 rem  Mapping the project to an ASCII drive letter (subst) avoids it.
 rem ============================================================
 
-rem --- MySQL root password: 占位符，提交到仓库前请勿填写真实密码；本地运行时请改为你的密码 -------
-set "MYSQL_PASSWORD=<你的MySQL密码>"
+rem Local database and model credentials are loaded from ../.env by Spring Boot.
+rem Do not override MYSQL_PASSWORD with a placeholder here.
 
 set "ROOT=%~dp0"
 if "%ROOT:~-1%"=="\" set "ROOT=%ROOT:~0,-1%"

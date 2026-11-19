@@ -19,7 +19,7 @@
       show-icon
       :closable="false"
       title="信用分低于 60，暂时无法提交新预约"
-      description="按时签到可逐步恢复信用分（每次 +2），请联系管理员处理异常记录。"
+      description="可在个人中心查看变动明细；对扣分有异议时联系管理员核查。已有预约仍可按规则签到。"
       style="margin-bottom: 16px"
     />
 
@@ -93,7 +93,7 @@
               改期
             </el-button>
             <el-button
-              v-if="['PENDING', 'APPROVED'].includes(row.status)"
+              v-if="['PENDING', 'APPROVED'].includes(row.status) && row.checkinStatus !== 'CHECKED_IN' && parseTime(row.startTime) > Date.now()"
               size="small"
               text
               type="danger"
@@ -249,7 +249,7 @@ function inCheckinWindow(row) {
 }
 
 function canReschedule(row) {
-  return row.status === 'APPROVED' && parseTime(row.startTime) > Date.now()
+  return row.status === 'APPROVED' && row.checkinStatus !== 'CHECKED_IN' && parseTime(row.startTime) > Date.now()
 }
 
 function openDetail(row) {
@@ -260,7 +260,7 @@ function openDetail(row) {
 async function checkin(row) {
   try {
     await reservationApi.checkin(row.id)
-    ElMessage.success('签到成功，信用分 +2')
+    ElMessage.success('签到成功，实际信用变化请查看个人中心')
     load()
     loadCredit()
   } catch (e) {

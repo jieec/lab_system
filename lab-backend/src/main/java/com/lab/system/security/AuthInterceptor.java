@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import java.util.Arrays;
 
@@ -19,7 +19,7 @@ import java.util.Arrays;
  */
 @Component
 @RequiredArgsConstructor
-public class AuthInterceptor implements HandlerInterceptor {
+public class AuthInterceptor implements AsyncHandlerInterceptor {
 
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
@@ -68,6 +68,11 @@ public class AuthInterceptor implements HandlerInterceptor {
             return reject(response, 403, "没有操作权限");
         }
         return true;
+    }
+
+    @Override
+    public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        UserContext.clear();
     }
 
     @Override

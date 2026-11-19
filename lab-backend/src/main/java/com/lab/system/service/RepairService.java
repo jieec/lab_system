@@ -50,23 +50,36 @@ public class RepairService {
 
     @Transactional
     public RepairOrder create(RepairCreateDTO dto) {
-        Equipment equipment = equipmentMapper.selectById(dto.getEquipmentId());
+        Long equipmentId=dto.getEquipmentId();
+        if(StringUtils.hasText(dto.getEquipmentCode())) {
+            Equipment found=equipmentMapper.selectOne(Wrappers.<Equipment>lambdaQuery().eq(Equipment::getCode,dto.getEquipmentCode().trim()));
+            if(found==null)throw new BizException("资产编号不存在，请核对设备铭牌");
+            if(equipmentId!=null&&!equipmentId.equals(found.getId()))throw new BizException("资产编号与所选设备不一致");
+            equipmentId=found.getId();
+        }
+        if(equipmentId==null)throw new BizException("请选择设备或提供准确资产编号");
+        Equipment equipment = equipmentMapper.selectByIdForUpdate(equipmentId);
         if (equipment == null) {
             throw new BizException("设备不存在");
         }
         if ("SCRAPPED".equals(equipment.getStatus())) {
             throw new BizException("该设备已报废，无法报修");
         }
+        // Asset-code lookup may establish an older MVCC snapshot before waiting for this row lock.
+        // The locked equipment status is a current read and prevents a second concurrent report.
+        if ("REPAIR".equals(equipment.getStatus())) throw new BizException("设备已在维修中，请勿重复报修");
         Long running = orderMapper.selectCount(Wrappers.<RepairOrder>lambdaQuery()
-                .eq(RepairOrder::getEquipmentId, dto.getEquipmentId())
+                .eq(RepairOrder::getEquipmentId, equipmentId)
                 .ne(RepairOrder::getStatus, "VERIFIED"));
         if (running > 0) {
             throw new BizException("该设备已有未完成的报修工单，请勿重复提交");
         }
+        if(!StringUtils.hasText(dto.getFaultDesc())||dto.getFaultDesc().length()>500)throw new BizException("故障描述须为1–500字");
+        if(StringUtils.hasText(dto.getUrgency())&&!List.of("LOW","NORMAL","HIGH").contains(dto.getUrgency()))throw new BizException("紧急程度无效");
 
         RepairOrder order = new RepairOrder();
         order.setOrderNo("RP" + LocalDateTime.now().format(NO_FMT)
-                + ThreadLocalRandom.current().nextInt(100, 999));
+                + ThreadLocalRandom.current().nextInt(100000, 1000000));
         order.setEquipmentId(equipment.getId());
         order.setLabId(equipment.getLabId());
         order.setReporterId(UserContext.userId());

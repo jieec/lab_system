@@ -57,32 +57,16 @@ public class ReservationService {
     private final SysUserMapper userMapper;
     private final MessageService messageService;
     private final LabClosureService closureService;
+    private final CreditService creditService;
 
     @Transactional
     public Reservation create(ReservationDTO dto) {
         // 事务第一条语句：锁实验室行（当前读，不建立 read view）
         labMapper.selectIdForUpdate(dto.getLabId());
 
-        Lab lab = labMapper.selectById(dto.getLabId());
-        if (lab == null || lab.getStatus() == null || lab.getStatus() != 1) {
-            throw new BizException("实验室不存在或已停用");
-        }
+        Lab lab = checkCanReserve(dto);
         LocalDateTime start = dto.getStartTime();
         LocalDateTime end = dto.getEndTime();
-        validateTimeWindow(lab, start, end);
-
-        closureService.ensureOpen(dto.getLabId(), start.toLocalDate());
-        checkCredit();
-        checkConflict(dto.getLabId(), start, end, null);
-
-        Long selfConflict = reservationMapper.selectCount(Wrappers.<Reservation>lambdaQuery()
-                .eq(Reservation::getUserId, UserContext.userId())
-                .in(Reservation::getStatus, "PENDING", "APPROVED")
-                .lt(Reservation::getStartTime, end)
-                .gt(Reservation::getEndTime, start));
-        if (selfConflict > 0) {
-            throw new BizException("你在该时段已有其他预约，请先取消或调整时间");
-        }
 
         Reservation r = new Reservation();
         // 6 位随机后缀，避免高并发下单号撞唯一索引
@@ -116,8 +100,28 @@ public class ReservationService {
         return r;
     }
 
+    /** Agent 预览与最终提交共用规则；预览不锁库，提交仍须先锁实验室行。 */
+    public Lab checkCanReserve(ReservationDTO dto) {
+        if (dto.getLabId() == null || dto.getStartTime() == null || dto.getEndTime() == null)
+            throw new BizException("请填写实验室和完整起止时间");
+        Lab lab = labMapper.selectById(dto.getLabId());
+        if (lab == null || !Integer.valueOf(1).equals(lab.getStatus())) throw new BizException("实验室不存在或已停用");
+        if (dto.getHeadcount() == null || dto.getHeadcount() < 1) throw new BizException("使用人数至少为 1");
+        if (lab.getCapacity() != null && dto.getHeadcount() > lab.getCapacity()) throw new BizException("使用人数超过实验室容量");
+        validateTimeWindow(lab, dto.getStartTime(), dto.getEndTime());
+        closureService.ensureOpen(dto.getLabId(), dto.getStartTime().toLocalDate());
+        checkCredit();
+        checkConflict(dto.getLabId(), dto.getStartTime(), dto.getEndTime(), null);
+        Long selfConflict = reservationMapper.selectCount(Wrappers.<Reservation>lambdaQuery()
+                .eq(Reservation::getUserId, UserContext.userId()).in(Reservation::getStatus, "PENDING", "APPROVED")
+                .lt(Reservation::getStartTime, dto.getEndTime()).gt(Reservation::getEndTime, dto.getStartTime()));
+        if (selfConflict > 0) throw new BizException("你在该时段已有其他预约，请先取消或调整时间");
+        return lab;
+    }
+
     /** 提取公共的时段校验，供新建与改期复用 */
     private void validateTimeWindow(Lab lab, LocalDateTime start, LocalDateTime end) {
+        if (!start.toLocalDate().equals(end.toLocalDate())) throw new BizException("请预约同一天内的时段");
         if (!end.isAfter(start)) {
             throw new BizException("结束时间必须晚于开始时间");
         }
@@ -130,7 +134,7 @@ public class ReservationService {
         if (Duration.between(start, end).toMinutes() < 30) {
             throw new BizException("单次预约时长不能少于 30 分钟");
         }
-        if (Duration.between(start, end).toHours() > 8) {
+        if (Duration.between(start, end).compareTo(Duration.ofHours(8)) > 0) {
             throw new BizException("单次预约时长不能超过 8 小时");
         }
         if (lab.getOpenTime() != null && start.toLocalTime().isBefore(lab.getOpenTime())) {
@@ -243,6 +247,7 @@ public class ReservationService {
         if (!self && !UserContext.isAdmin() && !"TEACHER".equals(UserContext.role())) {
             throw new BizException(403, "没有操作权限");
         }
+        if("CHECKED_IN".equals(r.getCheckinStatus())) throw new BizException("预约已签到，不能取消");
         if (!ReservationState.can(r.getStatus(), "CANCELLED")) {
             throw new BizException("当前状态不可取消");
         }
@@ -281,11 +286,9 @@ public class ReservationService {
         update.setCheckinTime(now);
         reservationMapper.updateById(update);
 
-        userMapper.update(null, Wrappers.<SysUser>lambdaUpdate()
-                .setSql("credit_score = LEAST(100, IFNULL(credit_score,100) + " + CreditPolicy.CHECKIN_REWARD + ")")
-                .eq(SysUser::getId, r.getUserId()));
+        creditService.change(r.getUserId(),"CHECKIN:"+id,"CHECKIN",CreditPolicy.CHECKIN_REWARD,"预约 "+r.getOrderNo()+" 有效签到");
         messageService.push(r.getUserId(), "签到成功",
-                "单号 " + r.getOrderNo() + " 已签到，信用分 +" + CreditPolicy.CHECKIN_REWARD,
+                "单号 " + r.getOrderNo() + " 已签到；信用分实际变化请查看信用记录（上限100分）",
                 "CREDIT", r.getId());
     }
 
@@ -299,6 +302,7 @@ public class ReservationService {
         if (!"APPROVED".equals(r.getStatus())) {
             throw new BizException("仅已通过的预约可以申请改期");
         }
+        if("CHECKED_IN".equals(r.getCheckinStatus()))throw new BizException("预约已签到，不能改期");
         if (r.getStartTime().isBefore(LocalDateTime.now())) {
             throw new BizException("预约已开始，无法改期");
         }
@@ -379,21 +383,23 @@ public class ReservationService {
                 .eq(Reservation::getCheckinStatus, "NONE")
                 .lt(Reservation::getEndTime,
                         LocalDateTime.now().minusMinutes(NO_SHOW_GRACE_MINUTES)));
-        for (Reservation r : list) {
+        int changed=0;
+        for (Reservation candidate : list) {
+            Reservation r=reservationMapper.selectByIdForUpdate(candidate.getId());
+            if(r==null||!"NONE".equals(r.getCheckinStatus())||!List.of("APPROVED","FINISHED").contains(r.getStatus())
+                    ||!r.getEndTime().isBefore(LocalDateTime.now().minusMinutes(NO_SHOW_GRACE_MINUTES)))continue;
             Reservation update = new Reservation();
             update.setId(r.getId());
             update.setCheckinStatus("NO_SHOW");
             reservationMapper.updateById(update);
 
-            userMapper.update(null, Wrappers.<SysUser>lambdaUpdate()
-                    .setSql("credit_score = GREATEST(0, IFNULL(credit_score,100) - " + CreditPolicy.NO_SHOW_PENALTY
-                            + "), violation_count = IFNULL(violation_count,0) + 1")
-                    .eq(SysUser::getId, r.getUserId()));
+            creditService.change(r.getUserId(),"NO_SHOW:"+r.getId(),"NO_SHOW",-CreditPolicy.NO_SHOW_PENALTY,"预约 "+r.getOrderNo()+" 结束15分钟后仍未签到");
             messageService.push(r.getUserId(), "预约爽约提醒",
                     "单号 " + r.getOrderNo() + " 未按时签到，记爽约一次，信用分 -" + CreditPolicy.NO_SHOW_PENALTY,
                     "CREDIT", r.getId());
+            changed++;
         }
-        return list.size();
+        return changed;
     }
 
     private void checkConflict(Long labId, LocalDateTime start, LocalDateTime end, Long excludeId) {

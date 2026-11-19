@@ -1,5 +1,14 @@
 import request from './request'
 
+export const creditApi = {
+  summary: () => request.get('/credit/me'),
+  records: (params) => request.get('/credit/records', { params }),
+  adjust: (data) => request.post('/credit/adjust', data),
+  appeals: (params) => request.get('/credit/appeals', {params}),
+  apply: (reason) => request.post('/credit/appeals', {reason}),
+  review: (id, approve, reason) => request.post(`/credit/appeals/${id}/review`, {approve,reason})
+}
+
 export const authApi = {
   login: (data) => request.post('/auth/login', data),
   profile: () => request.get('/auth/profile'),
